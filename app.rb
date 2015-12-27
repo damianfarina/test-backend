@@ -2,8 +2,17 @@ require 'roda'
 require 'sequel'
 require 'wedge'
 require 'shield'
+require_relative 'app/lib/env'
 
 class TestApp < Roda
+  include Shield::Helpers
+
+  use Rack::Session::Cookie, :secret => $env['SECRET']
+
+  def current_user
+    authenticated(User)
+  end
+
   plugin :environments
   plugin :multi_route
   plugin :empty_root
@@ -39,7 +48,12 @@ class TestApp < Roda
 
   route do |r|
     # Load the todo app
-    r.root { wedge(:todo).to_js :display }
+    r.root do
+      if !current_user
+        r.redirect '/login'
+      end
+      wedge(:todo).to_js :display
+    end
 
     # Handles wedge calls
     r.wedge_assets
