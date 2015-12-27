@@ -27,14 +27,13 @@ class TestApp
       end
 
       on :submit, '#login-form', form: :login_form, key: :user do |form, el|
-        button = el.find('button[type="submit"]')
-        button.prop("disabled", true)
+        disable_submit el
 
         begin
           if form.valid?
             login_user form.attributes do |res|
               if res[:success]
-                `window.location.replace('/')`
+                redirect_home
               else
                 form.display_errors errors: res[:errors]
               end
@@ -43,8 +42,22 @@ class TestApp
             form.display_errors
           end
         ensure
-          button.prop("disabled", false)
+          enable_submit el
         end
+      end
+
+      def disable_submit form_element
+        button = form_element.find('button[type="submit"]')
+        button.prop("disabled", true)
+      end
+
+      def enable_submit form_element
+        button = form_element.find('button[type="submit"]')
+        button.prop("disabled", false)
+      end
+
+      def redirect_home
+        `window.location.replace('/')`
       end
     end
   end
