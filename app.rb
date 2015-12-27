@@ -65,7 +65,7 @@ class TestApp < Roda
 end
 
 # Path to project folders
-GLOB = "**/{lib,config,routes,models,forms,components}/*.rb"
+GLOB = "**/{lib,config,routes,models,forms,components,services}/*.rb"
 
 # Load folders
 Dir[GLOB].each { |file| require_relative file }
