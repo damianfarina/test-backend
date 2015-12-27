@@ -27,5 +27,3 @@ class TestApp
     SEQUEL_DB.loggers << PrettyLogger.logger
   end
 end
-
-Sequel::Migrator.check_current(TestApp::SEQUEL_DB, './db/migrate') unless Dir['./db/migrate/*'].empty?
