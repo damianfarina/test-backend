@@ -29,11 +29,12 @@
     </div>
     <div class="form">
       <h2>Create an account</h2>
-      <form id='registration-form'>
+      <form id='registration-form' method="POST">
         <input type="text" placeholder="Username" name='user[username]'/>
-        <input type="password" placeholder="Password" name='user[password]'/>
         <input type="email" placeholder="Email Address" name='user[email]'/>
         <input type="tel" placeholder="Phone Number" name='user[phone_number]'/>
+        <input type="password" placeholder="Password" name='user[password]'/>
+        <input type="password" placeholder="Password Confirmation" name='user[password_confirmation]'/>
         <button type='submit'>Register</button>
       </form>
     </div>
