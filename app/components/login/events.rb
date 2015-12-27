@@ -1,4 +1,5 @@
 require_relative '../../forms/login'
+require_relative '../../forms/registration'
 
 if RUBY_ENGINE == 'opal'
   class Element
@@ -32,6 +33,27 @@ class TestApp
         begin
           if form.valid?
             login_user form.attributes do |res|
+              if res[:success]
+                redirect_home
+              else
+                form.display_errors errors: res[:errors]
+              end
+            end
+          else
+            form.display_errors
+          end
+        ensure
+          enable_submit el
+        end
+      end
+
+      on :submit, '#registration-form', form: :registration_form, key: :user do |form, el|
+        disable_submit el
+
+        begin
+          if form.valid?
+            register_user form.attributes do |res|
+              puts res
               if res[:success]
                 redirect_home
               else

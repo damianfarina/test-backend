@@ -10,6 +10,15 @@ class TestApp
           }
         end
       end
+
+      def register_user form
+        user = UserCreator.run(form)
+        if user.errors.any?
+          { success: false, errors: user.errors }
+        else
+          { success: true }
+        end
+      end
     end
   end
 end
