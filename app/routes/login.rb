@@ -1,5 +1,9 @@
 TestApp.route('login') do |r|
   r.root do
-    wedge(:login).to_js :display
+    if current_user
+      r.redirect '/'
+    else
+      wedge(:login).to_js :display
+    end
   end
 end
