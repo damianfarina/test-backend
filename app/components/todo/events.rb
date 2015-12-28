@@ -34,36 +34,25 @@ class TestApp
         end
       end
 
-      def add_task task_id, description, category, date_str, complete = false
-        task_list_dom = dom.find('ul.taskList')
-        task_item     = tmpl :task_item
-
-        # Description
-        description_dom = task_item.find('.description')
-        description_dom.html description
-        description_dom.add_class "complete-#{complete}"
-
-        # Category
-        category_dom = task_item.find('.category')
-        category_dom.html category
-        category_dom.add_class "category-#{category}"
-
-        # Date
-        date_dom = task_item.find('.date')
-        due_date = Date.parse(date_str)
-        date_dom.html due_date.strftime('%m/%d/%Y')
-        date_dom.add_class "complete-#{complete}"
-
-        task_list_dom.append task_item
+      on :click, '.taskDelete' do |el, evt|
+        evt.prevent_default
+        tasks_to_delete = []
+        checkboxes = dom.find('.taskCheckbox[type=checkbox]:checked')
+        checkboxes.each do |checkbox|
+          tasks_to_delete << get_task_id(checkbox)
+        end
+        delete_tasks tasks_to_delete do |res|
+          remove_dom_tasks checkboxes
+        end
       end
 
       def disable_submit form_element, class_name
-        button = form_element.find('button.' + class_name)
+        button = form_element.find("button.#{class_name}")
         button.prop("disabled", true)
       end
 
       def enable_submit form_element, class_name
-        button = form_element.find('button.' + class_name)
+        button = form_element.find("button.#{class_name}")
         button.prop("disabled", false)
       end
 
@@ -71,6 +60,16 @@ class TestApp
         form_element.find('input[name="task[description]"]').value = ''
         form_element.find('select[name="task[category]"]').value = ''
         form_element.find('input[name="task[due_date]"]').value = ''
+      end
+
+      def get_task_id element
+        element.closest('.taskItem')
+          .attr('class')
+          .split('task-id-')[1]
+      end
+
+      def remove_dom_tasks elements
+        elements.closest('.taskItem').remove
       end
     end
   end

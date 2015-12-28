@@ -22,6 +22,11 @@ class TestApp
           end
         }
       end
+
+      def delete_tasks task_ids
+        current_user.tasks_dataset.where(id: task_ids).delete
+        { success: true }
+      end
     end
   end
 end
