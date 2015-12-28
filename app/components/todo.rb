@@ -1,6 +1,7 @@
 require 'date'
 require_relative 'todo/display'
 require_relative 'todo/events'
+require_relative 'todo/server'
 
 class TestApp
   module Components
@@ -10,6 +11,9 @@ class TestApp
       CATEGORIES = %w`personal work school cleaning other`
 
       include TodoDisplay
+      include TodoServer
+
+      wedge_on_server TodoServer
 
       # html is from http://codepen.io/yesimaaron/pen/JGHlq
       html './public/todo.html' do
@@ -35,30 +39,6 @@ class TestApp
         end
 
         tmpl :task_item, dom.find('.taskItem')
-      end
-
-      def add_task description = '', category = '', date = Date.today, complete = false
-        raise "#{category} is not in the list of CATEGORIES" unless CATEGORIES.include? category
-
-        task_list_dom = dom.find('ul.taskList')
-        task_item     = tmpl :task_item
-
-        # Description
-        description_dom = task_item.find('.description')
-        description_dom.html description
-        description_dom.add_class "complete-#{complete}"
-
-        # Category
-        category_dom = task_item.find('.category')
-        category_dom.html category
-        category_dom.add_class "category-#{category}"
-
-        # Date
-        date_dom = task_item.find('.date')
-        date_dom.html date.strftime('%m/%d/%Y')
-        date_dom.add_class "complete-#{complete}"
-
-        task_list_dom.append task_item
       end
     end
   end
