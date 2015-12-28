@@ -16,20 +16,29 @@
         <div class="content" ng-controller="taskController">
           <h1>NoGo</h1>
           <p class="tagline">an angularJS todo app</p>
-          <form>
+          <form id="task-form" method="POST">
             <div class="inputContainer">
-              <input type="text" id="description" class="taskName" placeholder="What do you need to do?" ng-model="newTask">
+              <input id="description"
+                  type="text"
+                  class="taskName"
+                  placeholder="What do you need to do?"
+                  name='task[description]'>
               <label for="description">Description</label>
             </div>
             <div class="inputContainer half last">
               <i class="fa fa-caret-down selectArrow"></i>
-              <select id="category" class="taskCategory" ng-model="newTaskCategory" ng-options="obj.name for obj in categories">
+              <select id="category"
+                  class="taskCategory"
+                  name='task[category]'>
                 <option class="disabled" value="">Choose a category</option>
               </select>
               <label for="category">Category</label>
             </div>
             <div class="inputContainer half last right">
-              <input type="date" id="dueDate" class="taskDate" ng-model="newTaskDate">
+              <input id="dueDate"
+                  type="date"
+                  class="taskDate"
+                  name='task[due_date]'>
               <label for="dueDate">Due Date</label>
             </div>
             <div class="row">
