@@ -54,17 +54,28 @@ class TestApp
         end
       end
 
-      on :click, '.taskRead' do |el, evt|
+      on :click, '.taskItem .status' do |el, evt|
         evt.prevent_default
-        tasks_to_read = []
-        checkboxes = dom.find('.taskCheckbox[type=checkbox]:checked')
-        checkboxes.each do |checkbox|
-          tasks_to_read << get_task_id(checkbox)
+        task_id = get_task_id(el)
+        read_task(task_id) do |res|
+          mark_task_read task_id if res[:success]
         end
+      end
 
-        read_tasks tasks_to_read do |res|
-          mark_tasks_read tasks_to_read if res[:success]
+      on :click, '#show-mine' do |el, evt|
+        all_tasks = !el.prop('checked')
+
+        remove_all_task_items
+
+        get_tasks(all_tasks) do |res|
+          res[:tasks].each do |task|
+            add_task task[:id], task[:description], task[:category], task[:due_date], task[:is_read], task[:is_deletable]
+          end
         end
+      end
+
+      def remove_all_task_items
+        dom.find('.taskItem').remove
       end
 
       def disable_submit form_element, class_name
@@ -93,12 +104,14 @@ class TestApp
         elements.closest('.taskItem').remove
       end
 
-      def mark_tasks_read task_ids
-        task_ids.each do |task_id|
-           dom.find(".task-id-#{task_id} .description, .task-id-#{task_id} .date")
-            .remove_class("read-false")
-            .add_class("read-true")
-        end
+      def mark_task_read task_id
+         dom.find("\
+            .task-id-#{task_id} .description, \
+            .task-id-#{task_id} .date, \
+            .task-id-#{task_id} .status\
+          ")
+          .remove_class("read-false")
+          .add_class("read-true")
       end
     end
   end
