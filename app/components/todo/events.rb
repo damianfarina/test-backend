@@ -1,11 +1,19 @@
 require_relative '../../forms/task'
 
+if RUBY_ENGINE == 'opal'
+  class Element
+    alias_native :datepicker
+  end
+end
+
 class TestApp
   module Components
     class Todo < Wedge::Component
       name :todo
 
       on :ready do
+        dom.find('input.taskDate').datepicker(`{dateFormat: 'yy-mm-dd'}`)
+
         get_tasks do |res|
           res[:tasks].each do |task|
             add_task task[:id], task[:description], task[:category], task[:due_date], task[:read]
