@@ -28,6 +28,16 @@ class TestApp
         current_user.tasks_dataset.where(id: task_ids).delete
         { success: true }
       end
+
+      def read_tasks task_ids
+        user_read_tasks = current_user.read_tasks
+        selected_tasks = Task.where(id: task_ids).all
+        new_read_tasks = selected_tasks - user_read_tasks
+        new_read_tasks.each do |task|
+          current_user.add_read_task task
+        end
+        { success: true }
+      end
     end
   end
 end

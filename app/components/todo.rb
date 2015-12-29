@@ -41,7 +41,7 @@ class TestApp
         tmpl :task_item, dom.find('.taskItem')
       end
 
-      def add_task task_id, description, category, date_str, complete = false
+      def add_task task_id, description, category, date_str, read = false
         task_list_dom = dom.find('ul.taskList')
         task_item     = tmpl :task_item
 
@@ -51,7 +51,7 @@ class TestApp
         # Description
         description_dom = task_item.find('.description')
         description_dom.html description
-        description_dom.add_class "complete-#{complete}"
+        description_dom.add_class "read-#{read}"
 
         # Category
         category_dom = task_item.find('.category')
@@ -62,7 +62,7 @@ class TestApp
         date_dom = task_item.find('.date')
         due_date = Date.parse(date_str)
         date_dom.html due_date.strftime('%m/%d/%Y')
-        date_dom.add_class "complete-#{complete}"
+        date_dom.add_class "read-#{read}"
 
         task_list_dom.append task_item
       end

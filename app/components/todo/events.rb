@@ -8,7 +8,7 @@ class TestApp
       on :ready do
         get_tasks do |res|
           res[:tasks].each do |task|
-            add_task task[:id], task[:description], task[:category], task[:due_date]
+            add_task task[:id], task[:description], task[:category], task[:due_date], task[:read]
           end
         end
       end
@@ -42,7 +42,20 @@ class TestApp
           tasks_to_delete << get_task_id(checkbox)
         end
         delete_tasks tasks_to_delete do |res|
-          remove_dom_tasks checkboxes
+          remove_dom_tasks checkboxes if res[:success]
+        end
+      end
+
+      on :click, '.taskRead' do |el, evt|
+        evt.prevent_default
+        tasks_to_read = []
+        checkboxes = dom.find('.taskCheckbox[type=checkbox]:checked')
+        checkboxes.each do |checkbox|
+          tasks_to_read << get_task_id(checkbox)
+        end
+
+        read_tasks tasks_to_read do |res|
+          mark_tasks_read tasks_to_read if res[:success]
         end
       end
 
@@ -70,6 +83,14 @@ class TestApp
 
       def remove_dom_tasks elements
         elements.closest('.taskItem').remove
+      end
+
+      def mark_tasks_read task_ids
+        task_ids.each do |task_id|
+           dom.find(".task-id-#{task_id} .description, .task-id-#{task_id} .date")
+            .remove_class("read-false")
+            .add_class("read-true")
+        end
       end
     end
   end
