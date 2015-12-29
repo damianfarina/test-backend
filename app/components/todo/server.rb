@@ -17,7 +17,8 @@ class TestApp
               id: task.id,
               description: task.description,
               category: task.category,
-              due_date: task.due_date
+              due_date: task.due_date,
+              read: current_user.read_tasks.include?(task)
             }
           end
         }
