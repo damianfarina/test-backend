@@ -12,7 +12,9 @@
   <body>
     <div ng-app="TaskManager">
       <div class="container">
-        <a href="/logout" class="logout">Log out</a>
+        <div class="row">
+          <label class="pull-right reset-position"><a href="/logout" class="logout">Log out</a></label>
+        </div>
         <div class="content" ng-controller="taskController">
           <h1>NoGo</h1>
           <p class="tagline">an angularJS todo app</p>

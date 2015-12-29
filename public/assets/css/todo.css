@@ -225,6 +225,10 @@ button {
     margin-right: 1em;
 }
 
+.reset-position {
+  position: inherit;
+}
+
 .read-true {
     color: #bebebe;
     font-weight: 100;
