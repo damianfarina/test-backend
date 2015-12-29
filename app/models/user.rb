@@ -3,6 +3,9 @@ class User < Sequel::Model
   plugin :validation_helpers
 
   one_to_many :tasks
+  many_to_many :read_tasks, join_table: :tasks_users, class: :Task,
+    left_key: :user_id, right_key: :task_id
+
   def self.fetch(username)
     find(:username => username)
   end
