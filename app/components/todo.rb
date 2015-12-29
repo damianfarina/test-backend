@@ -26,7 +26,7 @@ class TestApp
         html.append javascript_tag 'app'
 
         content.find('> h1').html 'Todo App'
-        content.find('> p').html 'ACD - Backend Test'
+        content.find('> p.tagline').html 'ACD - Backend Test'
 
         categories_select = dom.find('#category')
 
@@ -41,17 +41,26 @@ class TestApp
         tmpl :task_item, dom.find('.taskItem')
       end
 
-      def add_task task_id, description, category, date_str, read = false
+      def add_task task_id, description, category, date_str, is_read = false, is_deletable = true
         task_list_dom = dom.find('ul.taskList')
         task_item     = tmpl :task_item
 
         # ID
         task_item.add_class "task-id-#{task_id}"
 
+        # Selectable
+        if !is_deletable
+          selectable_dom = task_item.find('.taskCheckbox')
+          selectable_dom.prop("disabled", true)
+        end
+
+        status_dom = task_item.find('.status')
+        status_dom.add_class("read-#{is_read}")
+
         # Description
         description_dom = task_item.find('.description')
         description_dom.html description
-        description_dom.add_class "read-#{read}"
+        description_dom.add_class "read-#{is_read}"
 
         # Category
         category_dom = task_item.find('.category')
@@ -62,9 +71,9 @@ class TestApp
         date_dom = task_item.find('.date')
         due_date = Date.parse(date_str)
         date_dom.html due_date.strftime('%m/%d/%Y')
-        date_dom.add_class "read-#{read}"
+        date_dom.add_class "read-#{is_read}"
 
-        task_list_dom.append task_item
+        task_list_dom.prepend task_item
       end
     end
   end

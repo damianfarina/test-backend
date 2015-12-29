@@ -48,6 +48,12 @@
               <button class="taskDelete" ng-click="deleteTask()"><i class="fa fa-trash-o icon"></i>Delete Tasks</button>
             </div>
           </form>
+          <div class="row">
+            <label for="show-mine" class="pull-right reset-position">
+              <input id="show-mine" type="checkbox" checked="true">
+              Show my tasks only
+            </label>
+          </div>
           <ul  class="taskList">
             <li class="taskItem" ng-repeat="taskItem in taskItem track by $index" ng-model="taskItem">
               <input type="checkbox" class="taskCheckbox" ng-model="taskItem.complete" ng-change="save()">

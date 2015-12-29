@@ -10,15 +10,17 @@ class TestApp
         end
       end
 
-      def get_tasks
+      def get_tasks all_tasks = false
+        tasks = all_tasks ? Task : current_user.tasks
         {
-          tasks: current_user.tasks.map do |task|
+          tasks: tasks.map do |task|
             {
               id: task.id,
               description: task.description,
               category: task.category,
               due_date: task.due_date,
-              read: current_user.read_tasks.include?(task)
+              is_read: current_user.read_tasks.include?(task),
+              is_deletable: current_user.tasks.include?(task)
             }
           end
         }

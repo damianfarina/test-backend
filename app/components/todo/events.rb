@@ -16,7 +16,7 @@ class TestApp
 
         get_tasks do |res|
           res[:tasks].each do |task|
-            add_task task[:id], task[:description], task[:category], task[:due_date], task[:read]
+            add_task task[:id], task[:description], task[:category], task[:due_date], task[:is_read], task[:is_deletable]
           end
         end
       end
