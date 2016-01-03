@@ -17,4 +17,4 @@ install: .env
 
 test:
 	RACK_ENV=test rake db:reset
-	bundle exec rerun -b --pattern '{Gemfile,Gemfile.lock,.gems,.bundle,.env*,config.ru,Rakefile,**/*.{rb,js,coffee,css,scss,sass,styl,erb,html,haml,ru,yml,slim,md,mab,rake}}' -- rspec spec
+	bundle install && bundle exec rerun -b --pattern '{Gemfile,Gemfile.lock,.gems,.bundle,.env*,config.ru,Rakefile,**/*.{rb,js,coffee,css,scss,sass,styl,erb,html,haml,ru,yml,slim,md,mab,rake}}' -- rspec spec

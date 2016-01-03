@@ -22,6 +22,7 @@ Using the provided application add the following features:
 **Please use RSPEC to create tests**
 
 To install please run `make install` and then `make` to start the server.
+To run the test suite run `make test`
 
 Other Useful Documentation:
 
