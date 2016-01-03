@@ -4,6 +4,7 @@ module TodoTestHelpers
     fill_in('user[username]', :with => user[:username])
     fill_in('user[password]', :with => user[:password])
     click_button 'Login'
+    find('p.tagline')
   end
 end
 
