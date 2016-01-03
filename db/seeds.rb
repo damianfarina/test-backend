@@ -1,5 +1,5 @@
 # Users
-u = User.create(username: 'test1', password: 'password')
+u = User.create(username: 'user1', password: 'password')
 
 # Tasks
 (1..10).step(2) do |i|
@@ -18,7 +18,7 @@ u = User.create(username: 'test1', password: 'password')
 end
 
 # Users
-u = User.create(username: 'test2', password: 'password')
+u = User.create(username: 'user2', password: 'password')
 
 # Tasks
 (1..10).step(2) do |i|
